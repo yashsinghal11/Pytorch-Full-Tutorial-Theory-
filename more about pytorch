@@ -1,0 +1,95 @@
+📌 What is PyTorch?
+
+PyTorch is an open-source deep learning library developed by Meta (Facebook AI).
+It is widely used for Machine Learning, Deep Learning, and AI research & production.
+
+It combines:
+
+🐍 Python’s simplicity
+
+⚡ Torch’s fast tensor computation (GPU supported)
+
+So, PyTorch is easy to write and very fast to run.
+
+🕒 PyTorch History & Versions
+🔹 PyTorch 0.1 (2017)
+✨ Key Features:
+
+🧠 Introduced Dynamic Computation Graph (models can change during runtime)
+
+🔗 Easy integration with NumPy, SciPy, Python libraries
+
+📈 Impact:
+
+Became very popular among researchers
+
+✍️ Used in many research papers because it was simple and flexible
+
+🔹 PyTorch 1.0 (2018)
+✨ Key Features:
+
+🔄 Connected research and production
+
+📦 Introduced TorchScript (for saving and deploying models)
+
+🚀 Better performance using Caffe2 integration
+
+📈 Impact:
+
+Made it easy to move models from training to real apps
+
+🔹 PyTorch 1.x Series
+✨ Key Features:
+
+🌐 Distributed training support (train on multiple GPUs/machines)
+
+🔁 ONNX support (use models in other frameworks)
+
+🗜️ Quantization (smaller and faster models)
+
+📚 New libraries:
+
+🖼️ torchvision → for Computer Vision
+
+📝 torchtext → for NLP
+
+🔊 torchaudio → for Audio
+
+📈 Impact:
+
+🏢 Used by companies and researchers
+
+🤗 Inspired tools like:
+
+PyTorch Lightning
+
+Hugging Face Transformers
+
+☁️ Easy deployment on cloud
+
+🔹 PyTorch 2.0
+✨ Key Features:
+
+⚡ Much faster performance
+
+🏭 Better for production & deployment
+
+🧠 Optimized for modern hardware (GPUs, TPUs, AI chips)
+
+📈 Impact:
+
+🚀 Faster training and inference
+
+🌍 Works well in real-world applications
+
+✅ Why Use PyTorch?
+
+✔️ Easy to learn
+
+✔️ Python friendly
+
+✔️ Very powerful
+
+✔️ Used in research + industry
+
+✔️ Best for AI/ML & Deep Learning
