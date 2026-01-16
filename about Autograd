@@ -1,0 +1,277 @@
+# 🧠 PyTorch Autograd — Deep Explanation (README)
+
+## 📌 What is Autograd?
+
+Autograd is PyTorch’s automatic differentiation engine.
+
+It automatically:
+- Tracks all operations on tensors
+- Builds a computation graph
+- Computes gradients using backpropagation
+
+So you don’t need to derive gradients manually.
+
+---
+
+## 🎯 Why Autograd is Needed?
+
+In Deep Learning we need:
+
+∂Loss / ∂Weights
+
+Manually computing gradients is:
+- Hard
+- Error-prone
+- Impossible for big networks
+
+Autograd does this automatically and efficiently.
+
+---
+
+## 🔁 Core Idea
+
+When you do:
+
+y = x * w + b  
+loss = (y - y_true)**2  
+
+PyTorch:
+- Builds a dynamic computation graph
+- Each tensor stores:
+  - Its creator function
+  - How to compute its gradient
+
+Then:
+
+loss.backward()
+
+PyTorch:
+- Traverses graph backwards
+- Applies chain rule
+- Computes gradients for all tensors with requires_grad=True
+
+---
+
+## 🧱 Computation Graph (Dynamic Graph)
+
+PyTorch uses a Dynamic Computation Graph (Define-by-Run):
+
+- Graph is built during runtime
+- Every forward pass builds a new graph
+- Very flexible (loops, if-else, etc.)
+
+Example:
+
+x = torch.tensor(2.0, requires_grad=True)  
+y = x * x + 3*x + 1  
+
+Graph:
+
+x ──> * ──┐  
+     *    + ──> y  
+x ──> * ──┘  
+x ──> *
+
+---
+
+## 🔬 requires_grad
+
+x = torch.tensor(5.0, requires_grad=True)
+
+Means:
+Track all operations on x and compute gradient for it.
+
+If requires_grad=False:
+- No graph
+- No gradient
+- Faster execution
+
+---
+
+## 🧮 .backward()
+
+loss.backward()
+
+This:
+- Starts from loss
+- Applies chain rule
+- Computes gradients for all leaf tensors
+- Stores gradient in:
+
+tensor.grad
+
+---
+
+## 📦 Example (Full Code)
+
+import torch
+
+x = torch.tensor(3.0, requires_grad=True)  
+w = torch.tensor(2.0, requires_grad=True)  
+b = torch.tensor(1.0, requires_grad=True)  
+
+y = w*x + b  
+loss = (y - 10)**2  
+
+loss.backward()
+
+print(x.grad)  
+print(w.grad)  
+print(b.grad)
+
+---
+
+## ♻️ Gradient Accumulation (IMPORTANT!)
+
+PyTorch accumulates gradients:
+
+loss.backward()  
+loss.backward()  
+
+Now:
+
+w.grad = grad1 + grad2
+
+So you must clear gradients:
+
+optimizer.zero_grad()  
+or  
+w.grad.zero_()
+
+---
+
+## 🛑 Detaching from Graph
+
+1) Using detach():
+
+y = x.detach()
+
+2) Using no_grad():
+
+with torch.no_grad():
+    y = model(x)
+
+Used in:
+- Inference
+- Evaluation
+- Saves memory and computation
+
+---
+
+## 🔗 grad_fn
+
+y = x * 2  
+print(y.grad_fn)
+
+Output:
+
+<MulBackward0>
+
+Means:
+This tensor was created by multiplication
+
+Leaf tensors:
+
+x.grad_fn == None
+
+---
+
+## 🌿 Leaf Tensor
+
+A tensor is leaf if:
+- Created by user
+- Not result of any operation
+- Has requires_grad=True
+
+Only leaf tensors get .grad populated.
+
+---
+
+## 🧠 Chain Rule (Math Behind)
+
+If:
+
+z = f(y)  
+y = g(x)  
+
+Then:
+
+dz/dx = (dz/dy) * (dy/dx)
+
+Autograd applies this automatically across entire graph.
+
+---
+
+## 🧪 Manual Gradient vs Autograd
+
+Manual:
+
+dw = 2*(y - y_true)*x
+
+Autograd:
+
+loss.backward()  
+print(w.grad)
+
+---
+
+## ⚙️ Custom Autograd Function (Advanced)
+
+class MyFunc(torch.autograd.Function):
+    @staticmethod
+    def forward(ctx, x):
+        ctx.save_for_backward(x)
+        return x**2
+
+    @staticmethod
+    def backward(ctx, grad_output):
+        x, = ctx.saved_tensors
+        return grad_output * 2*x
+
+---
+
+## 🚀 Autograd in Training Loop
+
+for epoch in range(epochs):
+    optimizer.zero_grad()
+    
+    output = model(x)
+    loss = criterion(output, y)
+    
+    loss.backward()
+    optimizer.step()
+
+---
+
+## 🧠 Relation to Manual Training Code
+
+When you write:
+
+loss.backward()  
+weights -= lr * weights.grad  
+
+The .grad is produced by Autograd Engine.
+
+---
+
+## ⚠️ Common Mistakes
+
+- Forgetting zero_grad()
+- Using .data (dangerous)
+- Updating weights without torch.no_grad()
+- Expecting non-leaf tensor to have .grad
+
+---
+
+## 📌 Final Summary
+
+Autograd:
+- Builds dynamic computation graph
+- Tracks all operations
+- Computes gradients using backpropagation
+- Stores gradients in .grad
+- Powers all deep learning in PyTorch
+
+---
+
+END
